@@ -15,7 +15,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:4000/users/login", {
+      const res = await fetch("https://blogg-1qrd.onrender.com/production/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
