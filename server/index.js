@@ -15,7 +15,7 @@ mongoose.connection.once('open', () => console.log('Now connected to MongoDB Atl
 
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:3000', // frontend origin
+  origin: 'http://localhost:3000', 'https://blogg-red-ten.vercel.app/login'// frontend origin
   credentials: true
 }));
 
