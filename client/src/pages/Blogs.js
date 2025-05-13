@@ -20,14 +20,14 @@ const Blogs = () => {
   }, []);
 
   const fetchPosts = () => {
-    fetch('http://localhost:4000/posts')
+    fetch('https://blogg-1qrd.onrender.com/posts')
       .then(res => res.json())
       .then(data => setPosts(data))
       .catch(() => setPosts([]));
   };
 
   const openPostModal = (postId, focusComment = false) => {
-    fetch(`http://localhost:4000/posts/${postId}`)
+    fetch(`https://blogg-1qrd.onrender.com/posts/${postId}`)
       .then(res => res.json())
       .then(data => {
         setSelectedPost(data);
@@ -51,7 +51,7 @@ const Blogs = () => {
 
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch(`http://localhost:4000/comments`, {
+      const res = await fetch(`https://blogg-1qrd.onrender.com/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ const Blogs = () => {
   const handleCreatePost = async () => {
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch(`http://localhost:4000/posts`, {
+      const res = await fetch(`https://blogg-1qrd.onrender.com/posts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ const Blogs = () => {
   const handleSaveEdit = async () => {
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch(`http://localhost:4000/posts/${selectedPost._id}`, {
+      const res = await fetch(`https://blogg-1qrd.onrender.com/posts/${selectedPost._id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

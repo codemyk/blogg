@@ -31,7 +31,7 @@ export default function Register() {
 	const registerUser = (e) => {
 		e.preventDefault();
 
-		fetch('http://localhost:4000/users/register', {
+		fetch('https://blogg-1qrd.onrender.com/users/register', {
 			method: 'POST',
 			headers: {
 				"Content-Type": "application/json",

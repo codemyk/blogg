@@ -32,7 +32,7 @@ const AdminDashboard = () => {
 
       const decodedToken = jwtDecode(token);
       const isAdmin = decodedToken.isAdmin === true;
-      const response = await fetch('http://localhost:4000/posts/', {
+      const response = await fetch('https://blogg-1qrd.onrender.com/posts/', {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -52,7 +52,7 @@ const AdminDashboard = () => {
   const handleDeletePost = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:4000/posts/${id}`, {
+      const response = await fetch(`https://blogg-1qrd.onrender.com/posts/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -71,7 +71,7 @@ const AdminDashboard = () => {
   const handleDeleteComment = async (commentId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:4000/comments/${commentId}`, {
+      const response = await fetch(`https://blogg-1qrd.onrender.com/comments/${commentId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
