@@ -11,8 +11,8 @@ const Blogs = () => {
   const [newComment, setNewComment] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [newPost, setNewPost] = useState({ title: '', content: '' });
-  const [showEditModal, setShowEditModal] = useState(false); // For the edit modal
-  const [editedPost, setEditedPost] = useState({ title: '', content: '' }); // To store the post being edited
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editedPost, setEditedPost] = useState({ title: '', content: '' });
   const commentInputRef = useRef(null);
 
   useEffect(() => {
@@ -65,9 +65,11 @@ const Blogs = () => {
 
       const addedComment = await res.json();
 
+      // Optional: restore full author if missing
       if (typeof addedComment.author === 'string') {
-        addedComment.author = { _id: user.id, username: user.username }; // Use logged-in user
+        addedComment.author = { _id: user.id, username: user.username };
       }
+
       setComments(prev => [...prev, addedComment]);
       setNewComment('');
     } catch (err) {
@@ -101,7 +103,6 @@ const Blogs = () => {
   };
 
   const handleEditPost = (postId) => {
-    // Find the post to edit
     const postToEdit = posts.find(post => post._id === postId);
     if (postToEdit) {
       setEditedPost({ title: postToEdit.title, content: postToEdit.content });
@@ -123,18 +124,14 @@ const Blogs = () => {
       });
 
       if (res.ok) {
-          const updatedPost = await res.json();
-        
-          // Patch the author field if it's just an ID string
-          if (typeof updatedPost.author === 'string') {
-            updatedPost.author = selectedPost.author; // Restore the full author object
-          }
-        
-          setPosts(posts.map(post =>
-            post._id === updatedPost._id ? updatedPost : post
-          ));
-          setShowEditModal(false);
-        } else {
+        const updatedPost = await res.json();
+        if (typeof updatedPost.author === 'string') {
+          updatedPost.author = selectedPost.author;
+        }
+
+        setPosts(posts.map(post => post._id === updatedPost._id ? updatedPost : post));
+        setShowEditModal(false);
+      } else {
         console.error('Failed to update post');
       }
     } catch (err) {
@@ -142,31 +139,29 @@ const Blogs = () => {
     }
   };
 
+  // ✅ NEW: Delete Post
   const handleDeletePost = async (postId) => {
-  const confirmDelete = window.confirm('Are you sure you want to delete this post?');
-  if (!confirmDelete) return;
+    const confirmDelete = window.confirm('Are you sure you want to delete this post?');
+    if (!confirmDelete) return;
 
-  const token = localStorage.getItem('token');
-  try {
-    const res = await fetch(`https://blogg-1qrd.onrender.com/posts/${postId}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`
+    const token = localStorage.getItem('token');
+    try {
+      const res = await fetch(`https://blogg-1qrd.onrender.com/posts/${postId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (res.ok) {
+        setPosts(prev => prev.filter(post => post._id !== postId));
+      } else {
+        console.error('Failed to delete post');
       }
-    });
-
-    if (res.ok) {
-      setPosts(prevPosts => prevPosts.filter(post => post._id !== postId));
-    } else {
-      const errorData = await res.json();
-      console.error('Failed to delete post:', errorData?.error || res.statusText);
-      alert('Failed to delete post: ' + (errorData?.error || res.statusText));
+    } catch (err) {
+      console.error('Error deleting post:', err);
     }
-  } catch (err) {
-    console.error('Error deleting post:', err);
-    alert('Something went wrong. Please try again.');
-  }
-};
+  };
 
   return (
     <div className="container py-4">
@@ -203,7 +198,7 @@ const Blogs = () => {
               >
                 Comment
               </Button>
-             {post.author && post.author._id === user.id && (
+              {post.author?._id === user.id && (
                 <>
                   <Button
                     variant="warning"
@@ -222,7 +217,6 @@ const Blogs = () => {
                     Delete
                   </Button>
                 </>
-              )}
               )}
             </div>
           </div>
@@ -314,31 +308,31 @@ const Blogs = () => {
           {selectedPost && (
             <Form>
               <Form.Group>
-<Form.Label>Title</Form.Label>
-<Form.Control
-type="text"
-value={editedPost.title}
-onChange={(e) => setEditedPost({ ...editedPost, title: e.target.value })}
-/>
-</Form.Group>
-<Form.Group className="mt-3">
-<Form.Label>Content</Form.Label>
-<Form.Control
-as="textarea"
-rows={5}
-value={editedPost.content}
-onChange={(e) => setEditedPost({ ...editedPost, content: e.target.value })}
-/>
-</Form.Group>
-<Button className="mt-3" variant="primary" onClick={handleSaveEdit}>
-Save Changes
-</Button>
-</Form>
-)}
-</Modal.Body>
-</Modal>
-</div>
-);
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={editedPost.title}
+                  onChange={(e) => setEditedPost({ ...editedPost, title: e.target.value })}
+                />
+              </Form.Group>
+              <Form.Group className="mt-3">
+                <Form.Label>Content</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={5}
+                  value={editedPost.content}
+                  onChange={(e) => setEditedPost({ ...editedPost, content: e.target.value })}
+                />
+              </Form.Group>
+              <Button className="mt-3" variant="primary" onClick={handleSaveEdit}>
+                Save Changes
+              </Button>
+            </Form>
+          )}
+        </Modal.Body>
+      </Modal>
+    </div>
+  );
 };
 
 export default Blogs;
