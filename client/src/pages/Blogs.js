@@ -64,6 +64,10 @@ const Blogs = () => {
       });
 
       const addedComment = await res.json();
+
+      if (typeof addedComment.author === 'string') {
+        addedComment.author = { _id: user.id, username: user.username }; // Use logged-in user
+      }
       setComments(prev => [...prev, addedComment]);
       setNewComment('');
     } catch (err) {
@@ -123,7 +127,7 @@ const Blogs = () => {
         
           // Patch the author field if it's just an ID string
           if (typeof updatedPost.author === 'string') {
-            updatedPost.author = selectedPost.author; // reuse old full author object
+            updatedPost.author = selectedPost.author; // Restore the full author object
           }
         
           setPosts(posts.map(post =>
