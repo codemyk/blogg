@@ -142,6 +142,32 @@ const Blogs = () => {
     }
   };
 
+  const handleDeletePost = async (postId) => {
+  const confirmDelete = window.confirm('Are you sure you want to delete this post?');
+  if (!confirmDelete) return;
+
+  const token = localStorage.getItem('token');
+  try {
+    const res = await fetch(`https://blogg-1qrd.onrender.com/posts/${postId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    if (res.ok) {
+      setPosts(prevPosts => prevPosts.filter(post => post._id !== postId));
+    } else {
+      const errorData = await res.json();
+      console.error('Failed to delete post:', errorData?.error || res.statusText);
+      alert('Failed to delete post: ' + (errorData?.error || res.statusText));
+    }
+  } catch (err) {
+    console.error('Error deleting post:', err);
+    alert('Something went wrong. Please try again.');
+  }
+};
+
   return (
     <div className="container py-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -177,15 +203,26 @@ const Blogs = () => {
               >
                 Comment
               </Button>
-              {post.author && post.author._id === user.id && (
-                <Button
-                  variant="warning"
-                  size="sm"
-                  className="ms-2"
-                  onClick={() => handleEditPost(post._id)}
-                >
-                  Edit
-                </Button>
+             {post.author && post.author._id === user.id && (
+                <>
+                  <Button
+                    variant="warning"
+                    size="sm"
+                    className="ms-2"
+                    onClick={() => handleEditPost(post._id)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    className="ms-2"
+                    onClick={() => handleDeletePost(post._id)}
+                  >
+                    Delete
+                  </Button>
+                </>
+              )}
               )}
             </div>
           </div>
