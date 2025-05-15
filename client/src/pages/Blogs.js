@@ -119,10 +119,18 @@ const Blogs = () => {
       });
 
       if (res.ok) {
-        const updatedPost = await res.json();
-        setPosts(posts.map(post => post._id === updatedPost._id ? updatedPost : post));
-        setShowEditModal(false);
-      } else {
+          const updatedPost = await res.json();
+        
+          // Patch the author field if it's just an ID string
+          if (typeof updatedPost.author === 'string') {
+            updatedPost.author = selectedPost.author; // reuse old full author object
+          }
+        
+          setPosts(posts.map(post =>
+            post._id === updatedPost._id ? updatedPost : post
+          ));
+          setShowEditModal(false);
+        } else {
         console.error('Failed to update post');
       }
     } catch (err) {
