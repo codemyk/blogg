@@ -217,7 +217,6 @@ const Blogs = () => {
                     Delete
                   </Button>
                 </>
-              )}
             </div>
           </div>
         ))}
