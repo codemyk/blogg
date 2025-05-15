@@ -165,7 +165,7 @@ const Blogs = () => {
               >
                 Comment
               </Button>
-              {post.author._id === user.id && (
+              {post.author && post.author._id === user.id && (
                 <Button
                   variant="warning"
                   size="sm"
