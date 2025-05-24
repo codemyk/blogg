@@ -1,5 +1,5 @@
 {
-    "url": "",
+    "url": "https://blogg-red-ten.vercel.app/",
     "endpoints": {
         "register": "/register",
         "login": "/login",

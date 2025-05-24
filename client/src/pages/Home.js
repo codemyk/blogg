@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { FaSignInAlt, FaUserPlus, FaBookOpen, FaTools } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 export default function Home() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -17,14 +19,20 @@ export default function Home() {
 
   return (
     <Container className="py-5 text-center">
-      <h1>Welcome to BLOGG</h1>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
+        <h1>Welcome to BLOGG</h1>
+      </motion.div>
       {currentUser ? (
         <>
           <p className="lead">Enjoy browsing our collection of blogs!</p>
-          <Button variant="primary" as={Link} to="/blogs">Go to Blogs</Button>
+          <Button variant="primary" as={Link} to="/blogs" className="me-2">
+            <FaBookOpen /> Explore Blogs
+          </Button>
           {currentUser.isAdmin && (
             <div className="mt-3">
-              <Button variant="warning" as={Link} to="/admin">Admin Dashboard</Button>
+              <Button variant="warning" as={Link} to="/admin">
+                <FaTools /> Admin Dashboard
+              </Button>
             </div>
           )}
         </>

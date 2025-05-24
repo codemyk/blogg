@@ -29,6 +29,21 @@
   margin-right: 10px;
 }
 
+/* Backgrounds */
+.home-bg {
+  background: linear-gradient(to right, #667eea, #764ba2);
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-bg {
+  background: url('/images/login-bg.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
 /* Modal styling */
 .modal-header {
   background-color: #343a40;
@@ -72,4 +87,36 @@ button:active {
 
 .dropdown-menu {
   font-size: 0.9rem;
+}
+
+.login-card {
+  max-width: 400px;
+  border-radius: 12px;
+  background-color: #ffffff;
+}
+
+.login-card h2 {
+  font-weight: 700;
+  color: #333;
+}
+
+.bg-light {
+  background-color: #f8f9fa !important;
+}
+
+button.btn-dark {
+  background-color: #343a40;
+  border: none;
+}
+
+button.btn-dark:hover {
+  background-color: #23272b;
+}
+
+.btn-primary {
+  background: linear-gradient(to right, #ff7e5f, #feb47b);
+  border: none;
+}
+.btn-primary:hover {
+  background: linear-gradient(to right, #feb47b, #ff7e5f);
 }

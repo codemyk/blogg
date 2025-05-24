@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Form, Container } from 'react-bootstrap';
+import { Button, Form, Container, Card } from 'react-bootstrap';
 import UserContext from '../UserContext';
 import { jwtDecode } from 'jwt-decode';
 
@@ -26,25 +26,20 @@ const Login = () => {
       const data = await res.json();
 
       if (data.access) {
-        // Store token
         localStorage.setItem("token", data.access);
 
-        // Decode the token
         const decoded = jwtDecode(data.access);
 
-        // Update user context
         setUser({
           id: decoded.id,
           isAdmin: decoded.isAdmin
         });
 
-        // Store user in localStorage
         localStorage.setItem("user", JSON.stringify({
           id: decoded.id,
           isAdmin: decoded.isAdmin
         }));
 
-        // Redirect to blogs page
         navigate("/blogs");
       } else {
         alert(data.message || "Login failed");
@@ -56,33 +51,38 @@ const Login = () => {
   };
 
   return (
-    <Container className="py-4">
-      <h2>Login</h2>
-      <Form onSubmit={authenticate}>
-        <Form.Group controlId="formIdentifier">
-          <Form.Label>Username or Email</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter your username or email"
-            value={identifier}
-            onChange={(e) => setIdentifier(e.target.value)}
-          />
-        </Form.Group>
+    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+      <Card className="p-5 shadow-lg w-100" style={{ maxWidth: '500px' }}>
+        
+        {/* 🌟 Logo Image */}
+        <img src="/logo.png" alt="Blogg Logo" style={{ width: "80px", margin: "0 auto", display: "block" }} />
 
-        <Form.Group controlId="formPassword" className="mt-3">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
+        <Form onSubmit={authenticate}>
+          <Form.Group controlId="formIdentifier">
+            <Form.Label>Username or Email</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter your username or email"
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
+            />
+          </Form.Group>
 
-        <Button variant="primary" type="submit" className="mt-3">
-          Login
-        </Button>
-      </Form>
+          <Form.Group controlId="formPassword" className="mt-3">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Form.Group>
+
+          <Button variant="primary" type="submit" className="mt-4 w-100">
+            Login
+          </Button>
+        </Form>
+      </Card>
     </Container>
   );
 };
