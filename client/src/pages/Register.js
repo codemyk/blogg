@@ -1,9 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
-import { Form, Button } from 'react-bootstrap';
-import { Navigate } from 'react-router-dom';
+import { Form, Button, Card, Container } from 'react-bootstrap';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import UserContext from '../UserContext';
-import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
 	const { user } = useContext(UserContext);
@@ -77,63 +76,69 @@ export default function Register() {
 	};
 
 	return (
-		<Form onSubmit={registerUser} className="p-4 rounded shadow-sm">
-			<h1 className="my-4 text-center">Register</h1>
+		<Container className="d-flex justify-content-center align-items-center login-bg" style={{ minHeight: '100vh' }}>
+			<Card className="p-5 shadow-lg w-100" style={{ maxWidth: '500px' }}>
+				
+				{/* 🌟 Logo Image */}
+				<img src="/logo.png" alt="Blogg Logo" style={{ width: "150px", margin: "0 auto", display: "block" }} />
 
-			<Form.Group className="mb-3">
-				<Form.Label>Username:</Form.Label>
-				<Form.Control
-					type="text"
-					placeholder="Enter Username"
-					required
-					minLength={3}
-					value={username}
-					onChange={e => setUsername(e.target.value)}
-				/>
-			</Form.Group>
+				<h2 className="text-center mt-3 mb-4">Register</h2>
 
-			<Form.Group className="mb-3">
-				<Form.Label>Email:</Form.Label>
-				<Form.Control
-					type="email"
-					placeholder="Enter Email"
-					required
-					value={email}
-					onChange={e => setEmail(e.target.value)}
-				/>
-			</Form.Group>
+				<Form onSubmit={registerUser}>
+					<Form.Group className="mb-3">
+						<Form.Label>Username</Form.Label>
+						<Form.Control
+							type="text"
+							placeholder="Enter username"
+							required
+							minLength={3}
+							value={username}
+							onChange={e => setUsername(e.target.value)}
+						/>
+					</Form.Group>
 
-			<Form.Group className="mb-3">
-				<Form.Label>Password:</Form.Label>
-				<Form.Control
-					type="password"
-					placeholder="Enter Password (min 8 characters)"
-					required
-					value={password}
-					onChange={e => setPassword(e.target.value)}
-				/>
-			</Form.Group>
+					<Form.Group className="mb-3">
+						<Form.Label>Email</Form.Label>
+						<Form.Control
+							type="email"
+							placeholder="Enter email"
+							required
+							value={email}
+							onChange={e => setEmail(e.target.value)}
+						/>
+					</Form.Group>
 
-			<Form.Group className="mb-4">
-				<Form.Label>Confirm Password:</Form.Label>
-				<Form.Control
-					type="password"
-					placeholder="Confirm Password"
-					required
-					value={confirmPassword}
-					onChange={e => setConfirmPassword(e.target.value)}
-				/>
-			</Form.Group>
+					<Form.Group className="mb-3">
+						<Form.Label>Password</Form.Label>
+						<Form.Control
+							type="password"
+							placeholder="Enter password (min 8 chars.)"
+							required
+							value={password}
+							onChange={e => setPassword(e.target.value)}
+						/>
+					</Form.Group>
 
-			<div className="d-grid">
-				<Button 
-					variant="primary" 
-					type="submit" 
-					disabled={!isActive}
-				>
-					Register
-				</Button>
-			</div>
-		</Form>
+					<Form.Group className="mb-4">
+						<Form.Label>Confirm Password</Form.Label>
+						<Form.Control
+							type="password"
+							placeholder="Confirm password"
+							required
+							value={confirmPassword}
+							onChange={e => setConfirmPassword(e.target.value)}
+						/>
+					</Form.Group>
+
+					<Button 
+					  variant={isActive ? "primary" : "danger"} 
+					  type="submit" 
+					  disabled={!isActive}
+					>
+					  Register
+					</Button>
+				</Form>
+			</Card>
+		</Container>
 	);
 }

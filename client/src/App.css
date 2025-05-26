@@ -1,4 +1,51 @@
+/* ---------------------------------- */
+/* General Buttons & Bootstrap Fixes */
+/* ---------------------------------- */
+
+button:focus {
+  outline: none;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  border: none;
+  color: #333;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+  color: #000;
+}
+
+.btn-primary {
+  background: linear-gradient(to right, #ff7e5f, #feb47b);
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(to right, #feb47b, #ff7e5f);
+  transform: translateY(-2px);
+  box-shadow: 0px 8px 15px rgba(255, 126, 95, 0.2);
+}
+
+button.btn-dark {
+  background-color: #343a40;
+  border: none;
+}
+
+button.btn-dark:hover {
+  background-color: #23272b;
+}
+
+/* ------------------ */
 /* Blogs Page Styling */
+/* ------------------ */
+
 .blog-card {
   background-color: #f9f9f9;
   border-radius: 8px;
@@ -29,7 +76,19 @@
   margin-right: 10px;
 }
 
-/* Backgrounds */
+.blog-action-button {
+  min-width: 100px;
+}
+
+.btn-fixed-width {
+  width: 100px;
+  text-align: center;
+}
+
+/* ----------------- */
+/* Background Styles */
+/* ----------------- */
+
 .home-bg {
   background: linear-gradient(to right, #667eea, #764ba2);
   color: white;
@@ -42,9 +101,22 @@
 .login-bg {
   background: url('/images/login-bg.jpg') no-repeat center center fixed;
   background-size: cover;
+  position: relative;
+  min-height: 100vh;
 }
 
-/* Modal styling */
+.login-bg::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 0;
+}
+
+/* ------------------------ */
+/* Modal (Bootstrap Custom) */
+/* ------------------------ */
+
 .modal-header {
   background-color: #343a40;
   color: white;
@@ -56,43 +128,22 @@
   color: #333;
 }
 
-/* Add Blog Button */
-button:focus {
-  outline: none;
-}
-
-button:active {
-  transform: scale(0.98);
-}
-
-.btn-warning {
-  background-color: #ffc107;
-  border: none;
-  color: #333;
-}
-
-.btn-warning:hover {
-  background-color: #e0a800;
-  color: #000;
-}
-
-.blog-action-button {
-  min-width: 100px;
-}
-
-.btn-fixed-width {
-  width: 100px;
-  text-align: center;
-}
-
 .dropdown-menu {
   font-size: 0.9rem;
 }
+
+/* ------------------ */
+/* Login Page Styling */
+/* ------------------ */
 
 .login-card {
   max-width: 400px;
   border-radius: 12px;
   background-color: #ffffff;
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 .login-card h2 {
@@ -100,23 +151,83 @@ button:active {
   color: #333;
 }
 
+/* ----------------------- */
+/* Register Page Effects */
+/* ----------------------- */
+
+/* Card animation on load */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-card {
+  animation: fadeInUp 0.6s ease-in-out;
+}
+
+/* Focus effect on inputs */
+.login-card input:focus {
+  border-color: #ff7e5f;
+  box-shadow: 0 0 0 0.2rem rgba(255, 126, 95, 0.25);
+  transition: all 0.3s ease;
+}
+
+/* Header accent underline */
+.login-card h2 {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+}
+
+.login-card h2::after {
+  content: '';
+  position: absolute;
+  width: 50%;
+  height: 3px;
+  background: linear-gradient(to right, #ff7e5f, #feb47b);
+  left: 25%;
+  bottom: -8px;
+  border-radius: 10px;
+}
+
+/* ------------------ */
+/* Utility Overrides  */
+/* ------------------ */
+
 .bg-light {
   background-color: #f8f9fa !important;
 }
 
-button.btn-dark {
-  background-color: #343a40;
-  border: none;
+/* ------------------ */
+/* Modal Editor */
+/* ------------------ */
+
+.editor-content {
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  background-color: #fff;
+  overflow-y: auto;
+  line-height: 1;
+  font-size: 1rem;
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+  line-height: 1.4; 
 }
 
-button.btn-dark:hover {
-  background-color: #23272b;
+.editor-content ul,
+.editor-content ol {
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+  padding-left: 1.5rem;
 }
 
-.btn-primary {
-  background: linear-gradient(to right, #ff7e5f, #feb47b);
-  border: none;
-}
-.btn-primary:hover {
-  background: linear-gradient(to right, #feb47b, #ff7e5f);
+.editor-content li {
+  margin-bottom: 0.25rem;
 }

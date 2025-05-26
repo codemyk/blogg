@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Form, Container, Card } from 'react-bootstrap';
 import UserContext from '../UserContext';
@@ -10,6 +10,7 @@ const Login = () => {
 
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
+  const [isActive, setIsActive] = useState(false);
 
   const authenticate = async (e) => {
     e.preventDefault();
@@ -50,12 +51,20 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    if (identifier.trim() !== "" && password.length >= 8) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
+  }, [identifier, password]);
+
   return (
     <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
       <Card className="p-5 shadow-lg w-100" style={{ maxWidth: '500px' }}>
         
         {/* 🌟 Logo Image */}
-        <img src="/logo.png" alt="Blogg Logo" style={{ width: "80px", margin: "0 auto", display: "block" }} />
+        <img src="/logo.png" alt="Blogg Logo" style={{ width: "150px", margin: "0 auto", display: "block" }} />
 
         <Form onSubmit={authenticate}>
           <Form.Group controlId="formIdentifier">
@@ -78,7 +87,12 @@ const Login = () => {
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit" className="mt-4 w-100">
+          <Button 
+            variant={isActive ? "primary" : "danger"} 
+            type="submit" 
+            className="mt-4 w-100"
+            disabled={!isActive}
+          >
             Login
           </Button>
         </Form>

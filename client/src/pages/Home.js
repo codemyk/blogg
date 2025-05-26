@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Button } from 'react-bootstrap';
+import { Container, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaSignInAlt, FaUserPlus, FaBookOpen, FaTools } from 'react-icons/fa';
 import { motion } from 'framer-motion';
@@ -8,7 +8,6 @@ export default function Home() {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    // Try to get user data from localStorage
     const storedUser = localStorage.getItem('user');
     const token = localStorage.getItem('token');
 
@@ -18,31 +17,51 @@ export default function Home() {
   }, []);
 
   return (
-    <Container className="py-5 text-center">
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
-        <h1>Welcome to BLOGG</h1>
-      </motion.div>
-      {currentUser ? (
-        <>
-          <p className="lead">Enjoy browsing our collection of blogs!</p>
-          <Button variant="primary" as={Link} to="/blogs" className="me-2">
-            <FaBookOpen /> Explore Blogs
-          </Button>
-          {currentUser.isAdmin && (
-            <div className="mt-3">
-              <Button variant="warning" as={Link} to="/admin">
-                <FaTools /> Admin Dashboard
+    <div className="home-bg">
+      <Container className="text-center px-4">
+        {/* 🌟 Logo Image */}
+        <motion.img
+          src="/logo.png"
+          alt="Blogg Logo"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          style={{ width: "200px", marginBottom: "20px" }}
+        />
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+        >
+          <h1 className="mb-3 display-4 fw-bold">Welcome to BLOGG</h1>
+          {currentUser ? (
+            <>
+              <p className="lead">Enjoy browsing our collection of blogs!</p>
+              <div className="d-flex justify-content-center gap-3 mt-3 flex-wrap">
+                <Button variant="primary" as={Link} to="/blogs">
+                  <FaBookOpen className="me-1" /> Explore Blogs
+                </Button>
+                {currentUser.isAdmin && (
+                  <Button variant="warning" as={Link} to="/admin">
+                    <FaTools className="me-1" /> Admin Dashboard
+                  </Button>
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="lead">Please log in or register to access our blogs.</p>
+              <Button variant="primary" as={Link} to="/login" className="me-2 mb-2">
+                <FaSignInAlt className="me-1" /> Login
               </Button>
-            </div>
+              <Button variant="secondary" as={Link} to="/register" className="mb-2">
+                <FaUserPlus className="me-1" /> Register
+              </Button>
+            </>
           )}
-        </>
-      ) : (
-        <>
-          <p className="lead">Please log in or register to access our blogs.</p>
-          <Button variant="primary" as={Link} to="/login" className="me-2">Login</Button>
-          <Button variant="secondary" as={Link} to="/register">Register</Button>
-        </>
-      )}
-    </Container>
+        </motion.div>
+      </Container>
+    </div>
   );
 }
