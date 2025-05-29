@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';  // <-- Import Link here
 import { Button, Form, Container, Card } from 'react-bootstrap';
 import UserContext from '../UserContext';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode'; // fixed import - jwtDecode is default export
 
 const Login = () => {
   const { setUser } = useContext(UserContext);
@@ -60,6 +60,7 @@ const Login = () => {
   }, [identifier, password]);
 
   return (
+    <>
     <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
       <Card className="p-5 shadow-lg w-100" style={{ maxWidth: '500px' }}>
         
@@ -96,8 +97,20 @@ const Login = () => {
             Login
           </Button>
         </Form>
+
+        {/* Signup Link */}
+        <div className="mt-3 text-center">
+          Don't have an account?{' '}
+          <Link to="/signup" style={{ textDecoration: 'underline' }}>
+            Sign up
+          </Link>
+        </div>
       </Card>
     </Container>
+    <footer className="bg-dark text-white text-center py-3 mt-5">
+            <small>Copyright © 2025. All Rights Reserved - John Michael Catapia</small>
+          </footer>
+    </>
   );
 };
 

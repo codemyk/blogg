@@ -76,6 +76,7 @@ export default function Register() {
 	};
 
 	return (
+		<>
 		<Container className="d-flex justify-content-center align-items-center login-bg" style={{ minHeight: '100vh' }}>
 			<Card className="p-5 shadow-lg w-100" style={{ maxWidth: '500px' }}>
 				
@@ -140,5 +141,9 @@ export default function Register() {
 				</Form>
 			</Card>
 		</Container>
+		<footer className="bg-dark text-white text-center py-3 mt-5">
+            <small>Copyright © 2025. All Rights Reserved - John Michael Catapia</small>
+          </footer>
+          </>
 	);
 }

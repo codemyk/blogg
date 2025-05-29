@@ -185,6 +185,7 @@ const Blogs = () => {
   );
 
   return (
+    <>
     <div className="container py-4">
       <Row className="align-items-center mb-3">
         <Col>
@@ -407,8 +408,12 @@ const Blogs = () => {
           <Button variant="primary" onClick={handleSaveEdit}>Save</Button>
         </Modal.Footer>
       </Modal>
-    </div>
-  );
-};
+      </div>
+          <footer className="bg-dark text-white text-center py-3 mt-5">
+            <small>Copyright © 2025. All Rights Reserved - John Michael Catapia</small>
+          </footer>
+        </>  
+        );
+      };
 
-export default Blogs;
+      export default Blogs;
