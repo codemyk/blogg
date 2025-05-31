@@ -50,6 +50,13 @@ button.btn-dark:hover {
   background-color: #f9f9f9;
   border-radius: 8px;
   transition: transform 0.2s ease;
+  max-height: 540px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 1rem;
+  box-sizing: border-box;
+  justify-content: space-between; /* push btn to bottom */
 }
 
 .blog-card:hover {
@@ -57,40 +64,101 @@ button.btn-dark:hover {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.blog-card img.card-img-top {
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+}
+
+/* Content preview area with fixed max-height */
+.fixed-content-height {
+  max-height: 120px; /* fixed height for preview */
+  overflow: hidden;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+/* Clamp text inside preview strictly */
+.blog-card .card-text {
+  font-size: 0.9rem;
+  line-height: 1.3rem;
+  color: #555;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 5; /* number of visible lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Title */
 .blog-card h4 {
   font-size: 1.5rem;
   font-weight: 600;
   color: #333;
+  margin-bottom: 0.75rem;
 }
 
-.blog-card p {
-  color: #555;
-  line-height: 1.6;
+/* Container for Read More button: fixed height and full width */
+.btn-read-more-container {
+  height: 40px; /* fixed height for button container */
+  display: flex;
+  align-items: center;  /* vertical center button */
+  justify-content: flex-start; /* left align button, or center if you prefer */
+  width: 100%;
 }
 
-.blog-card .btn {
-  margin-top: 10px;
-}
-
-.blog-card .me-2 {
-  margin-right: 10px;
-}
-
-.blog-action-button {
-  min-width: 100px;
-}
-
-.btn-fixed-width {
-  width: 100px;
+/* Read More button */
+.blog-card .btn-read-more {
+  flex-shrink: 0; /* prevent shrinking */
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  background-color: #ff7e5f;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
   text-align: center;
+  max-width: 150px; /* optional max width */
+  transition: background-color 0.2s ease;
+}
+
+.blog-card .btn-read-more:hover {
+  background-color: #feb47b;
 }
 
 /* ----------------- */
 /* Background Styles */
 /* ----------------- */
 
-.home-bg {
+/* Container background for blogs */
+.blogs-bg {
   background: linear-gradient(to right, #667eea, #764ba2);
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Other page backgrounds */
+.home-bg {
+  background: linear-gradient(to right, #667eea, #764ba2); /* purple gradient */
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-bg {
+  background: linear-gradient(to right, #667eea, #764ba2); /* dark steel */
   color: white;
   min-height: 100vh;
   display: flex;
@@ -98,19 +166,41 @@ button.btn-dark:hover {
   justify-content: center;
 }
 
-.login-bg {
-  background: url('/images/login-bg.jpg') no-repeat center center fixed;
-  background-size: cover;
-  position: relative;
+.register-bg {
+  background: linear-gradient(to right, #667eea, #764ba2); /* red to orange gradient */
+  color: white;
   min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.login-bg::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 0;
+.admin-bg {
+  background: linear-gradient(to right, #667eea, #764ba2); /* orange to yellow */
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Utility styling for inner content */
+.page-container {
+  padding: 2rem;
+  flex: 1;
+}
+
+/* Fade effect for smoother page transitions */
+.fade-page {
+  animation: fadeIn 0.6s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* ------------------------ */
@@ -144,42 +234,12 @@ button.btn-dark:hover {
   position: relative;
   z-index: 1;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 0.6s ease-in-out;
 }
 
 .login-card h2 {
   font-weight: 700;
   color: #333;
-}
-
-/* ----------------------- */
-/* Register Page Effects */
-/* ----------------------- */
-
-/* Card animation on load */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.login-card {
-  animation: fadeInUp 0.6s ease-in-out;
-}
-
-/* Focus effect on inputs */
-.login-card input:focus {
-  border-color: #ff7e5f;
-  box-shadow: 0 0 0 0.2rem rgba(255, 126, 95, 0.25);
-  transition: all 0.3s ease;
-}
-
-/* Header accent underline */
-.login-card h2 {
   position: relative;
   display: inline-block;
   margin-bottom: 1.5rem;
@@ -194,6 +254,26 @@ button.btn-dark:hover {
   left: 25%;
   bottom: -8px;
   border-radius: 10px;
+}
+
+/* Focus effect on inputs */
+.login-card input:focus {
+  border-color: #ff7e5f;
+  box-shadow: 0 0 0 0.2rem rgba(255, 126, 95, 0.25);
+  transition: all 0.3s ease;
+}
+
+/* Register Page Effects */
+/* Card animation on load */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ------------------ */
@@ -214,11 +294,10 @@ button.btn-dark:hover {
   border-radius: 0.25rem;
   background-color: #fff;
   overflow-y: auto;
-  line-height: 1;
+  line-height: 1.4;
   font-size: 1rem;
   margin-top: 0;
   margin-bottom: 0.25rem;
-  line-height: 1.4; 
 }
 
 .editor-content ul,
@@ -230,4 +309,29 @@ button.btn-dark:hover {
 
 .editor-content li {
   margin-bottom: 0.25rem;
+}
+
+/* ------------------ */
+/*   logout-overlay   */
+/* ------------------ */
+
+.logout-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #fff;
+}
+
+.logout-spinner {
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1rem;
 }

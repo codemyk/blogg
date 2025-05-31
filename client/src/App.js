@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AppNavbar from './components/AppNavbar';
+import Footer from './components/Footer';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
@@ -9,6 +10,8 @@ import Blogs from './pages/Blogs';
 import Admin from './pages/Admin';
 import Logout from './pages/Logout';
 import { UserProvider } from './UserContext';
+import './App.css';
+
 
 function App() {
   const [user, setUser] = useState({ id: null });
@@ -34,6 +37,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/logout" element={<Logout />} />
         </Routes>
+        <Footer />
       </Router>
     </UserProvider>
   );

@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 export default function Home() {
   const [currentUser, setCurrentUser] = useState(null);
   const [trendingPosts, setTrendingPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -19,6 +20,7 @@ export default function Home() {
   }, []);
 
   const fetchTrendingPosts = async () => {
+    setLoading(true);
     try {
       const res = await fetch('https://blogg-1qrd.onrender.com/posts');
       const data = await res.json();
@@ -26,6 +28,8 @@ export default function Home() {
       setTrendingPosts(shuffled.slice(0, 3));
     } catch (err) {
       console.error("Failed to fetch posts", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -57,6 +61,7 @@ export default function Home() {
 
   return (
     <div className="home-bg">
+      <main className="home-main">
       <Container className="text-center px-4 py-5">
         {/* 🌟 Logo */}
         <motion.img
@@ -98,29 +103,45 @@ export default function Home() {
           )}
         </motion.div>
 
-        {/*  Trending Posts */}
+        {/* Trending Posts */}
         <div className="mt-5">
-          <h2 className="mb-4"> Trending Posts</h2>
-          <Row>
-            {trendingPosts.map((post) => (
-              <Col md={4} key={post._id} className="mb-4">
-                <Card className="h-100 shadow-sm">
-                  <Card.Img variant="top" src={`https://picsum.photos/seed/${post._id}/400/200`} />
-                  <Card.Body className="d-flex flex-column">
-                    <Card.Title>{post.title}</Card.Title>
-                    <Card.Text className="flex-grow-1">
-                      {stripHtml(post.content).substring(0, 100)}...
-                    </Card.Text>
-                    <div className="mt-auto">
-                      <Button variant="outline-primary" as={Link} to="/blogs">
-                        Read More
-                      </Button>
-                    </div>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
+          <h2 className="mb-4">Trending Posts</h2>
+          {loading ? (
+            <motion.div
+              className="d-flex flex-column align-items-center justify-content-center py-5"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="spinner-border text-primary mb-3" role="status" style={{ width: '3rem', height: '3rem' }}>
+                <span className="visually-hidden">Loading...</span>
+              </div>
+              <p className="lead text-muted fw-semibold">
+                Loading Trending Posts, please be patient...
+              </p>
+            </motion.div>
+          ) : (
+            <Row>
+              {trendingPosts.map((post) => (
+                <Col md={4} key={post._id} className="mb-4">
+                  <Card className="h-100 shadow-sm">
+                    <Card.Img variant="top" src={`https://picsum.photos/seed/${post._id}/400/200`} />
+                    <Card.Body className="d-flex flex-column">
+                      <Card.Title>{post.title}</Card.Title>
+                      <Card.Text className="flex-grow-1">
+                        {stripHtml(post.content).substring(0, 100)}...
+                      </Card.Text>
+                      <div className="mt-auto">
+                        <Button variant="outline-primary" as={Link} to="/blogs">
+                          Read More
+                        </Button>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          )}
         </div>
 
         {/* Reviews Section */}
@@ -151,13 +172,7 @@ export default function Home() {
           </Row>
         </div>
       </Container>
-
-      {/* 🧾 Footer */}
-      <footer className="bg-dark text-white text-center py-3 mt-5">
-        <Container>
-          <small>Copyright © 2025. All Rights Reserved - John Michael Catapia</small>
-        </Container>
-      </footer>
+      </main>
     </div>
   );
 }

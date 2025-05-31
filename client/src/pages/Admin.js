@@ -90,6 +90,7 @@ const AdminDashboard = () => {
   };
 
   return (
+    <div className="admin-bg"> 
     <div className="container mt-5">
       <h1 className="text-center mb-4">Admin Dashboard</h1>
 
@@ -168,6 +169,7 @@ const AdminDashboard = () => {
           ))}
         </tbody>
       </Table>
+    </div>
     </div>
   );
 };

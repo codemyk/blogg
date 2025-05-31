@@ -49,7 +49,7 @@ const TiptapEditor = ({ content, onChange, minHeight = '150px' }) => {
     extensions: [StarterKit],
     content: content,
     onUpdate: ({ editor }) => {
-      onChange(editor.getHTML());
+      onChange?.(editor.getHTML()); // Safe call
     },
   });
 
@@ -64,10 +64,7 @@ const TiptapEditor = ({ content, onChange, minHeight = '150px' }) => {
       <div className="mb-2 pb-2 border-bottom">
         <MenuBar editor={editor} />
       </div>
-      <div
-        className="editor-content"
-        style={{ minHeight: minHeight }}
-      >
+      <div className="editor-content" style={{ minHeight }}>
         <EditorContent editor={editor} />
       </div>
     </div>
